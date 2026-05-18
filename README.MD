@@ -17,7 +17,7 @@ inherits = "0.1"
 
 ### `#[inherits]` — Composition via Deref
 
-Annotate a struct with `#[inherits(BaseType)]` to inject a `parent: BaseType` field and auto-derive `Deref` / `DerefMut`. All of the parent's methods and fields become directly accessible on the child.
+Annotate a struct with `#[inherits(BaseType)]` to inject a `parent: BaseType` field and auto-derive `Deref` / `DerefMut` / `From`. All of the parent's methods and fields become directly accessible on the child.
 
 ```rust
 use inherits::inherits;
@@ -29,6 +29,10 @@ struct Animal {
 impl Animal {
     fn speak(&self) -> String {
         format!("{} makes a sound", self.name)
+    }
+
+    fn flee(self) {
+        println!("{} has flee", self.name);
     }
 }
 
@@ -53,6 +57,7 @@ fn main() {
 
     println!("{}", dog.speak()); // Rex makes a sound
     println!("{}", dog.bark());  // Rex the German Shepherd barks!
+    Animal::flee(dog.into());    // Rex has flee
 }
 ```
 

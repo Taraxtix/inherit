@@ -36,6 +36,24 @@ pub fn inherits(args: TokenStream, input: TokenStream) -> TokenStream {
                     &mut self.parent
                 }
             }
+
+            impl From<#name> for #args {
+                fn from(value: #name) -> Self {
+                    value.parent
+                }
+            }
+
+            impl<'a> From<&'a #name> for &'a #args {
+                fn from(value: &'a #name) -> Self {
+                    &value.parent
+                }
+            }
+
+            impl<'a> From<&'a mut #name> for &'a mut #args {
+                fn from(value: &'a mut #name) -> Self {
+                    &mut value.parent
+                }
+            }
         };
 
         TokenStream::from(result)
